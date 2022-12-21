@@ -1,0 +1,31 @@
+version: "3"
+services:
+  app:
+    container_name: react_app
+    privileged: true
+    restart: always
+    stdin_open: true
+    tty: true
+    command: /bin/sh
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app/src:/usr/src/app
+  api:
+    container_name: go_api
+    build:
+      context: ./backend/src:/usr/src/api
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=${API_PORT}
+        - GO_VERSION=${GO_VERSION}
+        - API_CODE_LOCAL_PATH=${API_CODE_LOCAL_PATH}
+        - API_CODE_WORKDIR=${API_CODE_WORKDIR}
+      volumes:
+        - ${API_CODE_LOCAL_PATH}:${API_CODE_WORKDIR}
+      ports:
+        - ${API_PORT}:${API_PORT}
+      tty: true
