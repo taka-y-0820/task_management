@@ -4,8 +4,8 @@ ARG GO_VERSION=${GO_VERSION}
 ARG API_CODE_WORKDIR=${API_CODE_WORKDIR}
 
 FROM golang:${GO_VERSION}-alpine
+# ワーキングディレクトリの設定
+WORKDIR /usr/src/api
 
 RUN apk update && apk add git alpine-sdk
 
-# ワーキングディレクトリの設定
-WORKDIR /src/api
