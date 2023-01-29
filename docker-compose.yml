@@ -19,21 +19,24 @@ services:
       - api
     tty: true
   app:
-    container_name: react_app
-    privileged: true
-    restart: always
-    stdin_open: true
-    tty: true
-    command: /bin/sh
+    container_name: next_app
     build:
       context: ./app
       dockerfile: Dockerfile
-    environment:
-      - APP_PORT=${APP_PORT}
+      args:
+        - APP_PORT=${APP_PORT}
+        - APP_WORKDIR=${APP_WORKDIR}
+        - APP_LOCAL_PATH=${APP_LOCAL_PATH}
+        - NODE_VER=${NODE_VER}
+        - HOT_RELOAD=${HOT_RELOAD}
+    volumes:
+      - ${APP_LOCAL_PATH}:${APP_WORKDIR}
+      - node_modules:${APP_WORKDIR}/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}
-    volumes:
-      - ./app/src:/usr/src/app
+    privileged: true
+    stdin_open: true
+    tty: true
     depends_on:
       - api
   api:
@@ -43,11 +46,13 @@ services:
       dockerfile: Dockerfile
       args:
         - API_PORT=${API_PORT}
-        - GO_VERSION=${GO_VERSION}
-        - API_CODE_LOCAL_PATH=${API_CODE_LOCAL_PATH}
-        - API_CODE_WORKDIR=${API_CODE_WORKDIR}
+        - API_LOCAL_PATH=${API_LOCAL_PATH}
+        - API_WORKDIR=${API_WORKDIR}
     volumes:
-      - ${API_CODE_LOCAL_PATH}:${API_CODE_WORKDIR}
+      - ${API_LOCAL_PATH}:${API_WORKDIR}
     ports:
       - ${API_PORT}:${API_PORT}
     tty: true
+
+volumes:
+  node_modules:
