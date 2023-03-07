@@ -24,3 +24,32 @@ a {
     background: black;
   }
 }
+
+.tab-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-menu-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.tab-menu-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.tab-menu-item.active {
+  border-bottom: 2px solid #333;
+  font-weight: bold;
+}
+
+.tab-menu-content {
+  padding: 20px;
+}
