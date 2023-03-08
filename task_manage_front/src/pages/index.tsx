@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import React, { useState } from "react";
 import Home from "../components/contents/Home";
 
